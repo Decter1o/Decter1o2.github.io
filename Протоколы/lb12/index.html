@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Задание</title>
+  <script>
+    function openNewWindow() {
+      window.open('new_window_content.html', '_blank', 'width=400,height=400');
+    }
+
+    function validateForm() {
+      var name = document.getElementById('name').value;
+      var email = document.getElementById('email').value;
+
+      if (name === '' || email === '') {
+        alert('Пожалуйста, заполните все поля.');
+        return false;
+      }
+
+      var userData = {
+        name: name,
+        email: email
+      };
+
+      localStorage.setItem('userData', JSON.stringify(userData));
+
+      return true;
+    }
+
+    function displayUserData() {
+      var userData = JSON.parse(localStorage.getItem('userData'));
+      if (userData) {
+        document.getElementById('userData').innerHTML = 'Имя: ' + userData.name + '<br>Email: ' + userData.email;
+      } else {
+        document.getElementById('userData').innerHTML = 'Данные не найдены.';
+      }
+    }
+
+    window.onload = function() {
+      displayUserData();
+    };
+  </script>
+</head>
+<body>
+  <a href="#" onclick="openNewWindow(); return false;">Открыть новое окно</a><br><br>
+
+  <form onsubmit="return validateForm()">
+    <label for="name">Имя:</label>
+    <input type="text" id="name" name="name"><br><br>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email"><br><br>
+
+    <input type="submit" value="Отправить">
+  </form><br>
+
+  <div id="userData"></div><br>
+  <button onclick="displayUserData()">Показать данные</button>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Решение системы линейных уравнений</title>
+    <style>
+        .container {
+            margin-top: 20px;
+        }
+        #solution {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Решение системы линейных уравнений</h1>
+    <div class="container">
+        <form id="equationForm">
+            <label for="a1">a1:</label>
+            <input type="number" id="a1" required>
+            <label for="b1">b1:</label>
+            <input type="number" id="b1" required>
+            <label for="c1">c1:</label>
+            <input type="number" id="c1" required>
+            <br>
+            <label for="a2">a2:</label>
+            <input type="number" id="a2" required>
+            <label for="b2">b2:</label>
+            <input type="number" id="b2" required>
+            <label for="c2">c2:</label>
+            <input type="number" id="c2" required>
+            <br>
+            <button type="submit">Решить</button>
+        </form>
+        <div id="solution"></div>
+    </div>
+
+    <script>
+        document.getElementById("equationForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            let a1 = parseFloat(document.getElementById("a1").value);
+            let b1 = parseFloat(document.getElementById("b1").value);
+            let c1 = parseFloat(document.getElementById("c1").value);
+            let a2 = parseFloat(document.getElementById("a2").value);
+            let b2 = parseFloat(document.getElementById("b2").value);
+            let c2 = parseFloat(document.getElementById("c2").value);
+
+            let solution = solveLinearEquations(a1, b1, c1, a2, b2, c2);
+            displaySolution(solution);
+        });
+
+        function solveLinearEquations(a1, b1, c1, a2, b2, c2) {
+            let determinant = a1 * b2 - a2 * b1;
+            if (determinant === 0) {
+                return "Система не имеет уникального решения";
+            }
+
+            let x = (b2 * c1 - b1 * c2) / determinant;
+            let y = (a1 * c2 - a2 * c1) / determinant;
+
+            return { x: x, y: y };
+        }
+
+        function displaySolution(solution) {
+            let solutionDiv = document.getElementById("solution");
+            if (typeof(solution) === "string") {
+                solutionDiv.textContent = solution;
+            } else {
+                solutionDiv.innerHTML = "x = " + solution.x + "<br>y = " + solution.y;
+            }
+        }
+    </script>
+</body>
+</html>
